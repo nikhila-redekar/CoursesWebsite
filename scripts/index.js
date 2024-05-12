@@ -21,6 +21,9 @@ window.onload = function() {
                     <td>${course.dept}</td>
                     <td>${course.courseNum}</td>
                     <td>${course.courseName}</td>
+                    <td>
+                        <a href="details.html?cid=${course.id}">See details</a>
+                    </td>
                 `;
             });
         })
@@ -28,4 +31,6 @@ window.onload = function() {
             // Display error message if fetching course data fails
             console.error("Error:", error);
         });
+        
+
 };
