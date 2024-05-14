@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        </head>
+<body>
+    <div id="courseContainerDiv">
+
+    </div>
+    <script>
+        window.onload = function() {
+        const urlParams = new URLSearchParams(location.search);
+	// location.search returns the query string part of the URL
+    
+let cid = -1;
+if (urlParams.has("cid") === true)
+{
+   cid = urlParams.get("cid")
+   // call a method that fetches this course
+   getCourse(cid);
+}
+function getCourse(cid) {
+  fetch('http://localhost:8081/api/courses/' + cid)
+   .then(response => response.json())
+   .then(course => {
+      // this returns a single course!
+      const container = 
+         document.getElementById('courseContainerDiv');
+
+      // display one course property in a <p>
+      const deptP = document.createElement('p');
+      deptP.textContent = `Department: ${course.dept}`;
+      container.appendChild(deptP);
+
+      const deptN = document.createElement('p');
+      deptN.textContent = `Course Number: ${course.courseNum}`;
+      container.appendChild(deptN);
+  
+      // repeat for each field you want to display
+      const dept = document.createElement('p');
+      dept.textContent = `Course Name: ${course.courseName}`;
+      container.appendChild(dept);
+    })
+
+   .catch(error => {
+      // handle errors that occurred during the fetch request
+    });
+}
+        }
+
+    </script>
+</body>
+</html>
