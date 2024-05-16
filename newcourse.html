@@ -9,17 +9,26 @@
 <body>
     <h2>Add a New Course</h2>
     <form id="courseForm">
-        <label for="courseName">Course Name:</label>
+        <label for="courseName">CourseName:</label>
         <input type="text" id="courseName" name="courseName" required><br><br>
 
-        <label for="courseNum">Course Number:</label>
-        <input type="text" id="instructor" name="instructor" required><br><br>
+        <label for="courseNum">CourseNumber:</label>
+        <input type="text" id="courseNum" name="instructor" required><br><br>
 
         <label for="dept">Department:</label>
         <input type="text" id="duration" name="duration" required><br><br>
 
+        <label for="date">Date:</label>
+        <input type="text" id="startDate" name="duration" required><br><br>
 
-        <button type="submit" id="addCourseBtn">Add Course</button>
+        <label for="Days">No of Days:</label>
+        <input type="text" id="numDays" name="numDays" required><br><br>
+
+        <label for="Days">Instructor:</label>
+        <input type="text" id="instructor" name="instructor" required><br><br>
+
+
+        <button type="submit" onclick="addCourse">Add Course</button>
     </form>
 
     <script src="/scripts/newcourse.js"></script>

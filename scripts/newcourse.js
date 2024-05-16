@@ -1,29 +1,45 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('courseForm');
+document.getElementById('addCourse').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const courseName = document.getElementById('courseName').value;
+    const instructor = document.getElementById('instructor').value;
+    const department = document.getElementById('dept').value;
+    const courseNum = document.getElementById('courseNum').value;
+    const date = document.getElementById('startDate').value;
+    const Days = document.getElementById('numdays').value;
 
-    form.addEventListener('submit', function (event) {
-        event.preventDefault(); // Prevent form submission
+    console.log(Days);
+    if (title.trim() === '' || instructor.trim() === '' || department.trim() === '') {
+        alert('Please enter data in all fields.');
+        return;
+    }
+    
+    fetch('http://localhost:8081/api/courses', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            
+            dept: dept,
+            courseNum: courseNum,
+            courseName: courseName,
+            instructor: instructor,
+            startDate: date,
+            numDays: Days
 
-        const formData = new FormData(form);
+        
 
-        fetch('http://localhost:8081/api/courses/', {
-            method: 'POST',
-            body: formData
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to add course');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Course added successfully:', data);
-            // Optionally, display a success message or perform any other action
-            form.reset(); // Clear the form after successful submission
-        })
-        .catch(error => {
-            console.error('Error adding course:', error.message);
-            // Optionally, display an error message to the user
-        });
-    });
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to add new course.');
+        }
+        return response.json();
+    })
+    .then(() => {
+        alert('New course added successfully.');
+        window.location.href = '/index.html';
+    })
+    .catch(error => console.error('Error adding new course:', error));
 });
