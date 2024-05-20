@@ -1,36 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <button id="backbutton"><a href="/index.html">Back</a></button>
-    <title>Add Course</title>
-</head>
-<body>
-    <h2>Add a New Course</h2>
-    <form id="courseForm">
-        <label for="courseName">CourseName:</label>
-        <input type="text" id="courseName" name="courseName" required><br><br>
+<html>
+    <head>
+        <title>Course</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    </head>
+    <style>
+            form {
+                width: 75%;
+            }
 
-        <label for="courseNum">CourseNumber:</label>
-        <input type="text" id="courseNum" name="instructor" required><br><br>
+            .error{
+                color: red;
+            }
+    </style>
+    <body>
+        <form>
+            <fieldset class="border p-5 w-50 bg-light">
+                <a href="index.html">Course</a>
+                <h4 class="text-center">Add course details</h4>
+                <div class="mb-3">
+                    <label for="courseNum" class="form-label">Course Number</label>
+                    <input type="number" class="form-control" id="courseNum"/>
+                    <div id = "courseNumError" class="error">
+                    </div>
+                    <label for="courseName" class="form-label">Course Name</label>
+                    <input type="text" class="form-control" id="courseName"/>
+                    <div id = "courseNameError" class="error">
+                    </div>
+                    <label for="instructor" class="form-label">Instructor</label>
+                    <input type="text" class="form-control" id="instructor"/>
+                    <div id = "instructorError" class="error">
+                    </div>
+                    <label for="startDate" class="form-label">StartDate</label>
+                    <input type="date" class="form-control" id="startDate"/>
+                    <div id = "startDateError" class="error">
+                    </div>
+                    <label for="numDays" class="form-label">NumDays</label>
+                    <input type="number" class="form-control" id="numDays"/>
+                    <div id = "numDaysError" class="error">
+                    </div>
+                    Department<br>
+                    <select class="form-select" id="dept">
+                        <option value="CompSci">CompSci</option>
+                        <option value="Math">Math</option>
+                        <option value="English">English</option>
+                        <option value="Finance">Finance</option>
+                    </select>
+                    <div id = "deptError">
+                    </div>
+                    <div id = "newCourseDiv">
 
-        <label for="dept">Department:</label>
-        <input type="text" id="duration" name="duration" required><br><br>
-
-        <label for="date">Date:</label>
-        <input type="text" id="startDate" name="duration" required><br><br>
-
-        <label for="Days">No of Days:</label>
-        <input type="text" id="numDays" name="numDays" required><br><br>
-
-        <label for="Days">Instructor:</label>
-        <input type="text" id="instructor" name="instructor" required><br><br>
-
-
-        <button type="submit" onclick="addCourse">Add Course</button>
-    </form>
-
-    <script src="/scripts/newcourse.js"></script>
-</body>
+                    </div>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-dark mb-3" id="submitBtn">ADD</button>
+                </div>
+            </fieldset>
+        </form>
+        <script src="scripts/newcourse.js"></script> 
+    </body>
 </html>

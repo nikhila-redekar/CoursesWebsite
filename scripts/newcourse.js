@@ -1,45 +1,75 @@
-document.getElementById('addCourse').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const courseName = document.getElementById('courseName').value;
-    const instructor = document.getElementById('instructor').value;
-    const department = document.getElementById('dept').value;
-    const courseNum = document.getElementById('courseNum').value;
-    const date = document.getElementById('startDate').value;
-    const Days = document.getElementById('numdays').value;
+"use strict";
 
-    console.log(Days);
-    if (title.trim() === '' || instructor.trim() === '' || department.trim() === '') {
-        alert('Please enter data in all fields.');
-        return;
-    }
+let user = {};
+let flag = 0;
+window.onload = function(){
+    let btn = document.getElementById("submitBtn");
+    btn.addEventListener("click", validateUser);
+}
+
+function validateUser(){
+
+    validateFields("courseNum","courseNumError");
+    validateFields("courseName","courseNameError");
+    validateFields("instructor","instructorError");
+    validateFields("startDate","startDateError");
+    validateFields("numDays","numDaysError");
+    validateFields("dept","deptError");
+    console.log(user);
     
-    fetch('http://localhost:8081/api/courses', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            
-            dept: dept,
-            courseNum: courseNum,
-            courseName: courseName,
-            instructor: instructor,
-            startDate: date,
-            numDays: Days
+}
 
-        
-
-        })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to add new course.');
+function validateFields(id ,errorId){
+    let courseVal = document.getElementById(`${id}`).value;
+    let typeVal = document.getElementById(`${id}`).type;
+    console.log(courseVal, typeVal);
+    if(courseVal != null && courseVal != undefined && courseVal != '' && courseVal != 0)
+    {
+        if(typeVal === "number")
+        {
+            user[`${id}`] = Number(`${courseVal}`);
+            flag++;
         }
-        return response.json();
+        else if(typeVal === "date")
+            {
+                let coursedate = new Date(`${courseVal}`);
+                let options = {month: 'short', day: 'numeric'};
+                let date = coursedate.toLocaleDateString('en-US',options)
+                console.log(`date ${date}`);
+                user[`${id}`] = `${date}`;
+                flag++;
+            }
+        else{
+            user[`${id}`] = `${courseVal}`;
+            flag++;
+        }
+        
+    }
+    else{
+        let error = document.getElementById(`${errorId}`);
+        error.innerHTML = `Enter valid ${id}`;
+    }
+    if(flag===6)
+    {
+        addUser();
+    }
+}
+
+function addUser(){
+    fetch('http://localhost:8081/api/courses',{
+        method:"POST",
+        headers:{"content-type":"application/json"},
+        body: JSON.stringify(user)
     })
-    .then(() => {
-        alert('New course added successfully.');
-        window.location.href = '/index.html';
+    .then(response => response.json())
+    .then (json => {
+        let text = `Course ${json.id} has been added to course list successfully`;
+        let message = document.getElementById("newCourseDiv");
+        message.innerHTML = text;
     })
-    .catch(error => console.error('Error adding new course:', error));
-});
+    .catch(err => {
+        let text = `Error in adding Course`;
+        let message = document.getElementById("newCourseDiv");
+        message.innerHTML = text;
+    });
+}

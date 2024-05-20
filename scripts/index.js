@@ -1,36 +1,35 @@
 "use strict";
 
-window.onload = function() {
-    // Get reference to the courses table body
-    let coursesTableBody = document.querySelector("#coursesTable tbody");
+window.onload=function(){
+    fetchCourse();
+    console.log("index")
+}
 
-    // Send HTTP GET request to fetch course data
-    fetch("http://localhost:8081/api/courses/")
-        .then(response => {
-            // Check if response is successful
-            if (!response.ok) {
-                throw new Error("Failed to fetch course data.");
-            }
-            return response.json();
-        })
-        .then(courses => {
-            // Loop through each course and add data to the table
-            courses.forEach(course => {
-                let row = coursesTableBody.insertRow();
-                row.innerHTML = `
-                    <td>${course.dept}</td>
-                    <td>${course.courseNum}</td>
-                    <td>${course.courseName}</td>
-                    <td>
-                        <a href="details.html?cid=${course.id}">See details</a>
-                    </td>
-                `;
+let table = document.getElementById("table");
+function fetchCourse(){
+    fetch(`http://localhost:8081/api/courses`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            for(let i=0; i<data.length; i++) {
+                let row = table.insertRow(-1);
+                let cell1 = row.insertCell(0);
+                let cell2 = row.insertCell(1);
+                let cell3 = row.insertCell(2);
+                let cell4 = row.insertCell(3);
+                let cell5 = row.insertCell(4);
+                cell1.innerHTML = data[i].dept;
+                cell2.innerHTML = data[i].courseNum;
+                cell3.innerHTML = data[i].courseName;
+                let anchor = document.createElement("a");
+                anchor.href = `details.html?cid=${data[i].id}`;
+                anchor.text = "See details";   
+                cell4.appendChild(anchor);
+                let anchor1 = document.createElement("a");
+                anchor1.href = `confirmdelete.html?cid=${data[i].id}`;
+                anchor1.text = "Delete Course";   
+                cell5.appendChild(anchor1);
+
+                }
             });
-        })
-        .catch(error => {
-            // Display error message if fetching course data fails
-            console.error("Error:", error);
-        });
-        
-
-};
+        }
